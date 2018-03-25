@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dentist</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/2.5.0/babylon.max.js"></script>
+</head>
+<body>
+    <div id="main">
+        <canvas id="canvas"></canvas>
+        <div id="right">
+            <div style="padding:10px;">
+                <h1 align="center">Rotate cube</h1><hr />
+                <div id="data">
+                    <div class="textdata">
+                       <p>- rotate cube with three js library</p>
+                    </div>
+                </div>
+               
+            </div>
+
+        </div>
+    </div>
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            var canvas = document.getElementById("canvas");
+            var engine = new BABYLON.Engine(canvas, true);
+           
+            var createScene = function () {
+                var scene = new BABYLON.Scene(engine);
+                scene.clearColor = new BABYLON.Color3.White();
+                var box = BABYLON.Mesh.CreateBox("Box", 4.0, scene);
+                //var box2 = BABYLON.Mesh.CreateBox("Box2", 4.0, scene);
+                //var box3 = BABYLON.Mesh.CreateBox("Box3", 4.0, scene)
+                //var material = new BABYLON.StandardMaterial("material2", scene);
+              
+                //box2.material = material;
+                //box2.position = new BABYLON.Vector3(0, 5, 0);
+                //box3.material = material;
+                //box3.position = new BABYLON.Vector3(5, 5, 0)
+                //material.wireframe = true;
+               
+                var camera = new BABYLON.ArcRotateCamera("arcCamera",
+                    BABYLON.Tools.ToRadians(25),
+                    BABYLON.Tools.ToRadians(45),
+                    30, box.position,scene);
+              
+                camera.attachControl(canvas, true);
+
+                var light = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(0, 10, 0), scene);
+                light.parent = camera;
+                light.diffuse = new BABYLON.Color3(1, 1, 1);
+                var material = new BABYLON.StandardMaterial("material2", scene);
+                material.diffuseTexture = new BABYLON.Texture("images/ja2.jpg", scene);
+                material.bumpTexture = new BABYLON.Texture("images/ja2.jpg", scene);
+                material.backFaceCulling = false;
+                material.alpha = 0.5
+
+                //material.specularColor = BABYLON.Color3.Red();
+                box.material = material;
+                console.log('box');
+                console.log(box);
+                console.log('material');
+                console.log(material);
+                return scene;
+            }
+
+          
+
+            var scene = createScene();
+            engine.runRenderLoop(function () {
+                var light = scene.getLightByName("pointLight");
+                light.diffuse.g += 0.01;
+                light.diffuse.g += 0.01;
+                scene.render();
+            })
+        })
+    </script>
+</body>
+</html>
